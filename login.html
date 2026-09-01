@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Haven - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS will be placed here */
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --dark: #1a1a2e;
+            --light: #f1f1f1;
+            --accent: #ff7e5f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        .circles li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .circles li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .circles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .circles li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .circles li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .circles li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .circles li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .circles li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        .login-container {
+            position: relative;
+            z-index: 2;
+            width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: all 0.5s ease;
+        }
+
+        .login-container:hover {
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s;
+        }
+
+        .logo i {
+            font-size: 50px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .logo h1 {
+            color: var(--dark);
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+            animation: fadeIn 1s 0.3s backwards;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            font-size: 16px;
+            color: var(--dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.2);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: #999;
+            font-size: 16px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:valid + label {
+            transform: translateY(-30px);
+            font-size: 12px;
+            color: var(--primary);
+            background: white;
+            padding: 0 5px;
+            border-radius: 10px;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 20px;
+            animation: fadeIn 1s 0.4s backwards;
+        }
+
+        .forgot-password a {
+            color: var(--dark);
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: var(--accent);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+            animation: fadeIn 1s 0.5s backwards;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(78, 84, 200, 0.6);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--dark);
+            font-size: 14px;
+            animation: fadeIn 1s 0.6s backwards;
+        }
+
+        .signup-link a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .signup-link a:hover {
+            color: var(--accent);
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+            animation: fadeIn 1s 0.7s backwards;
+        }
+
+        .social-login p {
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+        }
+
+        .facebook {
+            background: #3b5998;
+        }
+
+        .google {
+            background: #db4437;
+        }
+
+        .twitter {
+            background: #1da1f2;
+        }
+
+        /* Floating books animation */
+        .floating-books {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .book {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .login-container {
+                width: 90%;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background circles -->
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <!-- Floating books -->
+    <div class="floating-books" id="floatingBooks"></div>
+
+    <!-- Login container -->
+    <div class="login-container animate__animated animate__fadeIn">
+        <div class="logo">
+            <i class="fas fa-book-open"></i>
+            <h1>Book <span>Haven</span></h1>
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" required>
+                <label for="username">Username or Email</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" required>
+                <label for="password">Password</label>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+
+            <div class="signup-link">
+                Don't have an account? <a href="#">Sign up</a>
+            </div>
+
+            <div class="social-login">
+                <p>or login with</p>
+                <div class="social-icons">
+                    <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="google"><i class="fab fa-google"></i></a>
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script>
+        // Create floating books
+        function createFloatingBooks() {
+            const container = document.getElementById('floatingBooks');
+            const bookIcons = ['📕', '📗', '📘', '📙', '📖', '📚'];
+            
+            for (let i = 0; i < 15; i++) {
+                const book = document.createElement('div');
+                book.className = 'book';
+                book.textContent = bookIcons[Math.floor(Math.random() * bookIcons.length)];
+                book.style.left = Math.random() * 100 + 'vw';
+                book.style.top = Math.random() * 100 + 'vh';
+                book.style.fontSize = (Math.random() * 20 + 16) + 'px';
+                book.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                book.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(book);
+            }
+        }
+
+        // Form submission with animation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if (!username || !password) {
+                shakeForm();
+                return;
+            }
+            
+            // Here you would normally send data to server
+            console.log('Login attempted with:', username, password);
+            
+            // Redirect to web1.html after successful validation
+            window.location.href = 'web1.html';
+        });
+
+        function shakeForm() {
+            const form = document.querySelector('.login-container');
+            gsap.to(form, {
+                x: 10,
+                duration: 0.1,
+                repeat: 5,
+                yoyo: true,
+                onComplete: () => {
+                    gsap.to(form, { x: 0, duration: 0.1 });
+                }
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            createFloatingBooks();
+            
+            // Add hover effect to social icons
+            const socialIcons = document.querySelectorAll('.social-icons a');
+            socialIcons.forEach(icon => {
+                icon.addEventListener('mouseenter', () => {
+                    gsap.to(icon, {
+                        scale: 1.1,
+                        duration: 0.3
+                    });
+                });
+                icon.addEventListener('mouseleave', () => {
+                    gsap.to(icon, {
+                        scale: 1,
+                        duration: 0.3
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Haven - Premium Bookstore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4e54c8;
+            --secondary: #8f94fb;
+            --dark: #1a1a2e;
+            --light: #f1f1f1;
+            --accent: #ff7e5f;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-actions a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .nav-actions a:hover {
+            transform: translateY(-3px);
+        }
+
+        .cart-count {
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sort-select {
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        /* Book Grid */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            cursor: pointer;
+        }
+
+        .book-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-card.selected {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 4px var(--accent), 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .book-img {
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .book-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .book-card:hover .book-img img {
+            transform: scale(1.1);
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .book-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .add-to-cart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(78, 84, 200, 0.3);
+        }
+
+        .add-to-cart:hover {
+            background: var(--accent);
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .rating {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Selection Modal */
+        .selection-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .selection-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .selection-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-book {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-book-img {
+            width: 120px;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-book-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-book-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-book-info .author {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-book-info .price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn.cart {
+            background: var(--primary);
+            color: white;
+        }
+
+        .modal-btn.wishlist {
+            background: #f1f1f1;
+            color: var(--dark);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Floating action button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(78, 84, 200, 0.4);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fab.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(15deg);
+            background: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-actions {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .book-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .modal-book {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* Loading animation */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            gap: 10px;
+        }
+
+        .loader-dot {
+            width: 15px;
+            height: 15px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .loader-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loader-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            to {
+                transform: translateY(-20px);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-book-open"></i>
+            <span>Book Haven</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Books</a></li>
+            <li><a href="#">Categories</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="#"><i class="fas fa-search"></i></a>
+            <a href="#" class="cart-icon" style="position: relative;">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+            <a href="#"><i class="fas fa-user"></i></a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <h1 class="page-title animate__animated animate__fadeIn">Our Premium Collection</h1>
+
+        <div class="filters animate__animated animate__fadeIn">
+            <div class="filter-group">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Fiction</button>
+                <button class="filter-btn">Non-Fiction</button>
+                <button class="filter-btn">Science</button>
+                <button class="filter-btn">Fantasy</button>
+            </div>
+
+            <div class="filter-group">
+                <select class="sort-select">
+                    <option>Sort by: Popular</option>
+                    <option>Sort by: Newest</option>
+                    <option>Sort by: Price Low to High</option>
+                    <option>Sort by: Price High to Low</option>
+                    <option>Sort by: Rating</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="book-grid" id="bookGrid">
+            <!-- Books will be loaded here -->
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+            <div class="loader-dot"></div>
+        </div>
+    </div>
+
+    <!-- Selection Modal -->
+    <div class="selection-modal" id="selectionModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-book" id="modalBook">
+                <!-- Content will be added dynamically -->
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cart" id="goToCart">
+                    <i class="fas fa-shopping-cart"></i> Go to Cart
+                </button>
+                <button class="modal-btn wishlist" id="addToWishlist">
+                    <i class="fas fa-heart"></i> Wishlist
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating action button -->
+    <div class="fab" id="fab">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Book Haven</h3>
+                <p>Your one-stop destination for all kinds of books. Find your next favorite read with us.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Books</a></li>
+                    <li><a href="#">Best Sellers</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Deals</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Track Order</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new arrivals and special offers.</p>
+                <form>
+                    <input type="email" placeholder="Your email" style="width: 100%; padding: 0.5rem; margin-top: 0.5rem; border-radius: 4px; border: none;">
+                    <button type="submit" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--accent); color: white; border: none; border-radius: 4px; cursor: pointer;">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="copyright">
+            &copy; 2023 Book Haven. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script>
+        // Sample book data
+        const books = [
+            {
+                id: 1,
+                title: "The Silent Patient",
+                author: "Alex Michaelides",
+                price: 12.99,
+                originalPrice: 18.99,
+                image: "https://m.media-amazon.com/images/I/71Jk3baRdnL._AC_UF1000,1000_QL80_.jpg",
+                rating: 4,
+                badge: "Bestseller",
+                category: "Fiction",
+                description: "A psychological thriller about a woman who shoots her husband and then stops speaking."
+            },
+            {
+                id: 2,
+                title: "Atomic Habits",
+                author: "James Clear",
+                price: 14.95,
+                originalPrice: 22.99,
+                image: "https://m.media-amazon.com/images/I/91bYsX41DVL._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                badge: "New",
+                category: "Non-Fiction",
+                description: "Tiny changes, remarkable results. An easy way to build good habits and break bad ones."
+            },
+            {
+                id: 3,
+                title: "Dune",
+                author: "Frank Herbert",
+                price: 9.99,
+                originalPrice: 15.99,
+                image: "https://m.media-amazon.com/images/I/71OB5+hNfrL._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                category: "Science Fiction",
+                description: "A science fiction novel about the son of a noble family entrusted with the protection of the most valuable asset in the galaxy."
+            },
+            {
+                id: 4,
+                title: "The Midnight Library",
+                author: "Matt Haig",
+                price: 13.50,
+                originalPrice: 17.99,
+                image: "https://m.media-amazon.com/images/I/81J9P+JYhJL._AC_UF1000,1000_QL80_.jpg",
+                rating: 4,
+                badge: "Sale",
+                category: "Fiction",
+                description: "Between life and death there is a library, and within that library, the shelves go on forever."
+            },
+            {
+                id: 5,
+                title: "Sapiens",
+                author: "Yuval Noah Harari",
+                price: 16.99,
+                originalPrice: 24.99,
+                image: "https://m.media-amazon.com/images/I/713jIoMO3UL._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                category: "Non-Fiction",
+                description: "A brief history of humankind, exploring the ways in which biology and history have defined us."
+            },
+            {
+                id: 6,
+                title: "Project Hail Mary",
+                author: "Andy Weir",
+                price: 11.25,
+                originalPrice: 19.99,
+                image: "https://m.media-amazon.com/images/I/91Q5dC+2QvL._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                badge: "Popular",
+                category: "Science Fiction",
+                description: "A lone astronaut must save the earth from disaster in this incredible new science-based thriller."
+            },
+            {
+                id: 7,
+                title: "The Psychology of Money",
+                author: "Morgan Housel",
+                price: 10.99,
+                originalPrice: 14.99,
+                image: "https://m.media-amazon.com/images/I/71g2ednj0JL._AC_UF1000,1000_QL80_.jpg",
+                rating: 4,
+                category: "Non-Fiction",
+                description: "Timeless lessons on wealth, greed, and happiness through 19 short stories exploring how people think about money."
+            },
+            {
+                id: 8,
+                title: "The Hobbit",
+                author: "J.R.R. Tolkien",
+                price: 8.99,
+                originalPrice: 12.99,
+                image: "https://m.media-amazon.com/images/I/710+HcoP38L._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                badge: "Classic",
+                category: "Fantasy",
+                description: "A fantasy novel about the quest of home-loving hobbit Bilbo Baggins to win a share of the treasure guarded by Smaug the dragon."
+            },
+            {
+                id: 9,
+                title: "Educated",
+                author: "Tara Westover",
+                price: 12.99,
+                originalPrice: 16.99,
+                image: "https://m.media-amazon.com/images/I/71r1T+rD2AL._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                category: "Non-Fiction",
+                description: "A memoir about a woman who leaves her survivalist family and goes on to earn a PhD from Cambridge University."
+            },
+            {
+                id: 10,
+                title: "The Name of the Wind",
+                author: "Patrick Rothfuss",
+                price: 9.99,
+                originalPrice: 14.99,
+                image: "https://m.media-amazon.com/images/I/91Q5dC+2QvL._AC_UF1000,1000_QL80_.jpg",
+                rating: 5,
+                badge: "Reader's Choice",
+                category: "Fantasy",
+                description: "The story of Kvothe, an adventurer and famous musician, telling his life story to a chronicler."
+            },
+            {
+                id: 11,
+                title: "Where the Crawdads Sing",
+                author: "Delia Owens",
+                price: 10.50,
+                originalPrice: 15.99,
+                image: "https://m.media-amazon.com/images/I/81F5tUvh0FL._AC_UF1000,1000_QL80_.jpg",
+                rating: 4,
+                category: "Fiction",
+                description: "A murder mystery and coming-of-age story set in the marshes of North Carolina."
+            },
+            {
+                id: 12,
+                title: "Thinking, Fast and Slow",
+                author: "Daniel Kahneman",
+                price: 13.99,
+                originalPrice: 19.99,
+                image: "https://m.media-amazon.com/images/I/61fdrEuPJwL._AC_UF1000,1000_QL80_.jpg",
+                rating: 4,
+                badge: "Must Read",
+                category: "Non-Fiction",
+                description: "The author, a Nobel laureate, explains the two systems that drive the way we think."
+            }
+        ];
+
+        // Current selected book
+        let selectedBook = null;
+        let cartItems = [];
+
+        // DOM elements
+        const bookGrid = document.getElementById('bookGrid');
+        const loader = document.getElementById('loader');
+        const selectionModal = document.getElementById('selectionModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalBook = document.getElementById('modalBook');
+        const goToCart = document.getElementById('goToCart');
+        const addToWishlist = document.getElementById('addToWishlist');
+        const fab = document.getElementById('fab');
+        const cartCount = document.querySelector('.cart-count');
+
+        // Load books with animation
+        function loadBooks() {
+            // Simulate loading delay
+            setTimeout(() => {
+                loader.style.display = 'none';
+                
+                books.forEach((book, index) => {
+                    const bookCard = document.createElement('div');
+                    bookCard.className = 'book-card';
+                    bookCard.dataset.id = book.id;
+                    bookCard.innerHTML = `
+                        <div class="book-img">
+                            <img src="${book.image}" alt="${book.title}">
+                            ${book.badge ? `<span class="book-badge">${book.badge}</span>` : ''}
+                        </div>
+                        <div class="book-info">
+                            <h3 class="book-title">${book.title}</h3>
+                            <p class="book-author">by ${book.author}</p>
+                            <div class="rating">
+                                ${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}
+                            </div>
+                            <div class="book-price">
+                                <div>
+                                    ${book.originalPrice ? `<span class="original-price">$${book.originalPrice.toFixed(2)}</span>` : ''}
+                                    <span class="price">$${book.price.toFixed(2)}</span>
+                                </div>
+                                <button class="add-to-cart" data-id="${book.id}">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    bookGrid.appendChild(bookCard);
+                    
+                    // Animate each card sequentially
+                    setTimeout(() => {
+                        bookCard.classList.add('animate');
+                    }, index * 100);
+                });
+            }, 1500);
+        }
+
+        // Show book selection modal
+        function showBookModal(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+
+            selectedBook = book;
+            
+            // Update modal content
+            modalBook.innerHTML = `
+                <div class="modal-book-img">
+                    <img src="${book.image}" alt="${book.title}">
+                </div>
+                <div class="modal-book-info">
+                    <h3>${book.title}</h3>
+                    <p class="author">by ${book.author}</p>
+                    <div class="rating">
+                        ${'★'.repeat(book.rating)}${'☆'.repeat(5 - book.rating)}
+                    </div>
+                    <p class="price">$${book.price.toFixed(2)}</p>
+                    <p>${book.description}</p>
+                </div>
+            `;
+            
+            // Show modal with animation
+            selectionModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            selectionModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add to cart
+        function addToCart(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+
+            // Check if already in cart
+            const existingItem = cartItems.find(item => item.id === bookId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cartItems.push({
+                    ...book,
+                    quantity: 1
+                });
+            }
+
+            // Update cart count
+            updateCartCount();
+            
+            // Visual feedback
+            const cartIcon = document.querySelector('.cart-icon');
+            gsap.to(cartIcon, {
+                scale: 1.2,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1
+            });
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBooks();
+            
+            // Book card double click
+            bookGrid.addEventListener('dblclick', (e) => {
+                const bookCard = e.target.closest('.book-card');
+                if (bookCard) {
+                    const bookId = parseInt(bookCard.dataset.id);
+                    showBookModal(bookId);
+                }
+            });
+            
+            // Book card click (for selection effect)
+            bookGrid.addEventListener('click', (e) => {
+                const bookCard = e.target.closest('.book-card');
+                if (bookCard) {
+                    // Remove selection from all cards
+                    document.querySelectorAll('.book-card').forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                    
+                    // Add to current card
+                    bookCard.classList.add('selected');
+                }
+            });
+            
+            // Add to cart button click
+            bookGrid.addEventListener('click', (e) => {
+                if (e.target.closest('.add-to-cart')) {
+                    const button = e.target.closest('.add-to-cart');
+                    const bookId = parseInt(button.dataset.id);
+                    addToCart(bookId);
+                    addToCartAnimation(button);
+                }
+            });
+            
+            // Modal close
+            modalClose.addEventListener('click', closeModal);
+            
+            // Click outside modal to close
+            selectionModal.addEventListener('click', (e) => {
+                if (e.target === selectionModal) {
+                    closeModal();
+                }
+            });
+            
+            // Go to cart button
+            goToCart.addEventListener('click', () => {
+                // In a real app, this would redirect to the cart page
+                alert('Redirecting to cart page with selected book');
+                closeModal();
+            });
+            
+            // Add to wishlist button
+            addToWishlist.addEventListener('click', () => {
+                alert(`Added "${selectedBook.title}" to your wishlist`);
+                closeModal();
+            });
+            
+            // Back to top button
+            fab.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Show/hide back to top button
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    fab.classList.add('visible');
+                } else {
+                    fab.classList.remove('visible');
+                }
+            });
+        });
+
+        // Add to cart animation
+        function addToCartAnimation(button) {
+            const cartIcon = document.querySelector('.cart-icon');
+            
+            // Clone the button to create flying effect
+            const clone = button.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.top = `${button.getBoundingClientRect().top}px`;
+            clone.style.left = `${button.getBoundingClientRect().left}px`;
+            clone.style.transform = 'scale(1)';
+            clone.style.transition = 'none';
+            document.body.appendChild(clone);
+            
+            // Animate to cart
+            gsap.to(clone, {
+                x: cartIcon.getBoundingClientRect().left - button.getBoundingClientRect().left,
+                y: cartIcon.getBoundingClientRect().top - button.getBoundingClientRect().top,
+                scale: 0.5,
+                duration: 0.8,
+                ease: "power2.out",
+                onComplete: () => {
+                    clone.remove();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
